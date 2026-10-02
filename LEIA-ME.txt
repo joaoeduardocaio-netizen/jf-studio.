@@ -1,0 +1,14 @@
+JF STUDIO — IMPRESSÕES 3D
+
+Site atualizado com cabeçalho menor e fixo, bordas azuis e animação do dragão.
+Clique ou toque no dragão para pausar e retomar a animação.
+
+COMO COLOCAR NO REPOSITÓRIO
+1. Extraia este ZIP no celular ou computador.
+2. Envie index.html, style.css, app.js e a pasta assets para a raiz do repositório.
+3. Mantenha os arquivos dentro de assets com os mesmos nomes.
+4. Não envie apenas o ZIP: o repositório precisa dos arquivos extraídos.
+
+Um repositório novo chamado jf-studio evita substituir outro site existente.
+O site é estático, sem etapa de compilação. O catálogo continua demonstrativo.
+O vídeo incluído é a versão atual aprovada. Há uma área clara residual perto da cabeça em alguns quadros.
