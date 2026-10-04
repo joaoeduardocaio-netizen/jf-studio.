@@ -1,0 +1,17 @@
+JF STUDIO — ATUALIZAÇÃO CREME E TERRACOTA
+
+1. Extraia este ZIP.
+2. No repositório atual, substitua index.html, style.css e app.js.
+3. Adicione as novas imagens da pasta assets à pasta assets que já existe.
+4. NÃO apague a pasta assets atual: seus arquivos da logo, do fundo neon e do dragão animado devem continuar nela.
+5. Não envie apenas o ZIP; envie os arquivos extraídos.
+
+O cabeçalho HTML e as regras originais de sua animação foram mantidos.
+As duas últimas logos enviadas foram desconsideradas e não fazem parte deste pacote.
+A atualização inclui menu para celular, catálogo em duas colunas e ícones em SVG.
+As imagens de produtos são ilustrativas da proposta, não fotos dos produtos à venda.
+O catálogo, os filtros e o pedido de orçamento continuam funcionando como no site original.
+Os filtros existentes foram mantidos para não criar categorias vazias.
+
+Validação: sintaxe JavaScript, estrutura HTML, filtros, busca, carrinho e formulário de personalização.
+Não foi possível verificar a renderização visual em navegador neste ambiente.
