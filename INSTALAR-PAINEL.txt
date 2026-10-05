@@ -1,0 +1,16 @@
+JF ADMIN — INSTALAÇÃO NO CELULAR
+
+1. Extraia o ZIP e envie TODOS os arquivos diretamente na raiz do repositório,
+   substituindo index.html, catalogo.html, admin.html e admin.css.
+   Este pacote não tem subpastas. Não mova nada para assets.
+2. Aguarde o GitHub Pages publicar e abra admin.html pelo endereço do seu site.
+3. No Android/Chrome, toque em Instalar painel. Se o navegador não mostrar
+   a confirmação, abra o menu de três pontos e escolha Instalar aplicativo
+   ou Adicionar à tela inicial.
+4. No iPhone, abra no Safari, toque em Compartilhar e Adicionar à Tela de Início.
+5. O ícone JF Admin abre direto o painel. Use seu e-mail e senha normalmente.
+
+O link Área administrativa foi removido da home e do catálogo.
+O painel continua em admin.html, protegido pelo login e autorização.
+Ele precisa de internet para entrar e editar os produtos.
+Nenhuma alteração na senha, biometria, banco ou produtos existentes.
