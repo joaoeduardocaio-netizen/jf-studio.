@@ -10,14 +10,16 @@ try{const saved=JSON.parse(localStorage.getItem('jf-atelie-order')||'[]');if(Arr
 const arrow='<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>';
 function render(){
  if(!$('#products'))return;
- const q=$('#search').value.trim().toLocaleLowerCase('pt-BR');
+ const q=($('#search')?.value||$('#headerQuery')?.value||'').trim().toLocaleLowerCase('pt-BR');
  const list=products.filter(p=>(filter==='Todos'||p.category===filter)&&(p.name+' '+(p.description||'')).toLocaleLowerCase('pt-BR').includes(q));
  $('#products').innerHTML=list.map(p=>`<article class="product-card">${p.image?`<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy">`:''}<div class="product-info"><h3>${esc(p.name)}</h3>${p.description?`<p>${esc(p.description)}</p>`:''}<button data-add="${esc(p.id)}">Adicionar ao pedido ${arrow}</button></div></article>`).join('');
  $('#emptyCatalog').hidden=!!list.length;
- $('#emptyCatalog h2').textContent=products.length?'Nenhuma criação encontrada.':'Novas criações em breve.';
- $('#emptyMessage').textContent=products.length?'Experimente outra busca ou categoria.':'Estamos preparando nosso catálogo. Enquanto isso, conte sua ideia para a JF Studio.';
+ $('#emptyCatalog h2').textContent=products.length?'Nenhuma criação encontrada.':'Novas criações em breve';
+ $('#emptyMessage').textContent=products.length?'Experimente outra busca ou categoria.':'Estamos preparando nosso catálogo.';
  $('#filterStatus').textContent=`${list.length} ${list.length===1?'criação':'criações'} · ${filter}`;
- $('#filters').innerHTML=categories.map(c=>`<button data-filter="${esc(c)}" class="${filter===c?'selected':''}" aria-pressed="${filter===c}">${esc(c)}</button>`).join('');
+ const visible=['Todos','Articulados','Decoração'];if(!visible.includes(filter))visible.push(filter);
+ $('#filters').innerHTML=visible.map(c=>`<button data-filter="${esc(c)}" class="${filter===c?'selected':''}" aria-pressed="${filter===c}">${esc(c)}</button>`).join('');
+ $('#allFilters').innerHTML=categories.map(c=>`<button data-filter="${esc(c)}" aria-pressed="${filter===c}">${esc(c)}</button>`).join('');
 }
 let toastTimer;function toast(message){$('#toast').textContent=message;$('#toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').hidden=true,2600)}
 function order(){return 'PEDIDO DE ORÇAMENTO — JF STUDIO\n\n'+cart.map(x=>`${x.qty} × ${x.name}`).join('\n')+'\n\nCores, medidas, valores e prazo a combinar.'}
@@ -28,7 +30,14 @@ function openWhatsApp(text){if(!whatsapp){$('#ideaDialog').showModal();return}wi
 $('#menuToggle').addEventListener('click',()=>{const open=$('#menuToggle').getAttribute('aria-expanded')!=='true';$('#menuToggle').setAttribute('aria-expanded',String(open));$('#menuToggle').setAttribute('aria-label',open?'Fechar menu':'Abrir menu');$('#siteNav').hidden=!open});
 $('#siteNav').addEventListener('click',e=>{if(e.target.closest('a')){$('#menuToggle').setAttribute('aria-expanded','false');$('#menuToggle').setAttribute('aria-label','Abrir menu');$('#siteNav').hidden=true}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('#menuToggle').setAttribute('aria-expanded','false');$('#siteNav').hidden=true}});
-$('#filters')?.addEventListener('click',e=>{const b=e.target.closest('button[data-filter]');if(b){filter=b.dataset.filter;const url=new URL(location.href);if(filter==='Todos')url.searchParams.delete('categoria');else url.searchParams.set('categoria',filter);history.replaceState(null,'',url);render()}});
+function chooseFilter(e){const b=e.target.closest('button[data-filter]');if(b){filter=b.dataset.filter;const url=new URL(location.href);if(filter==='Todos')url.searchParams.delete('categoria');else url.searchParams.set('categoria',filter);history.replaceState(null,'',url);render();$('#filterDialog').close()}}
+$('#filters')?.addEventListener('click',chooseFilter);
+$('#allFilters')?.addEventListener('click',chooseFilter);
+$('#filterOpen')?.addEventListener('click',()=>$('#filterDialog').showModal());
+$('#filterClose')?.addEventListener('click',()=>$('#filterDialog').close());
+const initialSearch=new URLSearchParams(location.search).get('busca')||'';
+if($('#search'))$('#search').value=initialSearch;
+if($('#headerQuery'))$('#headerQuery').value=initialSearch;
 $('#search')?.addEventListener('input',render);
 $('#products')?.addEventListener('click',e=>{const b=e.target.closest('button[data-add]');const p=products.find(x=>String(x.id)===b?.dataset.add);if(p)add(p.id,p.name)});
 $('#cartOpen').addEventListener('click',()=>{$('#orderStatus').textContent='';$('#cartDialog').showModal()});$('#cartClose').addEventListener('click',()=>$('#cartDialog').close());
