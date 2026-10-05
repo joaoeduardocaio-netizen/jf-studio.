@@ -1,18 +1,44 @@
-# JF Studio — preto e cobre
-Layout baseado na referência aprovada com a impressora produzindo um suporte Baby Groot.
+# JF Studio
 
-## Publicar
-Substitua os arquivos index.html, catalogo.html, style.css, app.js, config.js e produtos.js na raiz do repositório. Envie a pasta assets completa, preservando subpastas. As imagens novas estão em assets/hero-groot.webp e assets/jf-logo-preto-cobre.png. A home tem uma prévia do catálogo; Catálogo abre uma página própria. Busca e categorias funcionam nas duas páginas.
+Site estático preto e cobre com catálogo online, painel administrativo,
+galerias de fotos e vídeos, preços opcionais, categorias, destaques e pedido via WhatsApp.
 
-## Adicionar peças
-O catálogo inicia vazio. Coloque suas fotos em assets/produtos e cadastre em produtos.js. Campos: id, name, category, description, image. Exemplo de estrutura (não aparece no site):
-```js
-window.JF_PRODUCTS = [{id:"peca-1", name:"Sua peça", category:"Articulados", description:"Sua descrição", image:"assets/produtos/foto.jpg"}];
+Acesse `admin.html` para gerenciar o catálogo. Leia `COMO-PUBLICAR.txt`.
+O projeto Supabase próprio da JF já foi criado com tabelas e armazenamento.
+Falta cadastrar e autorizar a conta do proprietário. Nenhum produto de exemplo foi criado.
+
+## Permissões
+
+As três tabelas públicas têm RLS. Apenas usuários da tabela `jf_admins`
+podem cadastrar/editar/excluir produtos, categorias ou arquivos.
+Visitantes leem apenas produtos publicados. O cadastro de conta não concede papel admin.
+A chave de config.js é pública; não inclui service_role ou chave secreta.
+Para autorizar uma conta já cadastrada, o responsável pelo banco usa:
+
+```sql
+insert into public.jf_admins(user_id)
+select id from auth.users where lower(email) = lower('EMAIL_DO_PROPRIETARIO')
+on conflict do nothing;
 ```
-Categorias configuradas em config.js; novas categorias dos produtos também entram no filtro. O botão de ajustes ao lado dos filtros abre todas as categorias. Preços não foram cadastrados.
 
-## Pedido
-O pedido fica salvo neste navegador e é enviado para o WhatsApp 48 99694-2186. A opção Personalizados permite descrever uma ideia. Não há painel administrativo nesta versão; o cadastro é feito nos arquivos.
+Execute somente com o e-mail do proprietário confirmado. Confira que uma linha foi inserida.
+Configure em Authentication > URL Configuration a URL publicada e `admin.html`
+como redirecionamento permitido para confirmação e recuperação de senha.
+A senha é escolhida pelo proprietário e não deve ser enviada a ninguém.
 
-## Imagens e validação
-A cena da impressora é ilustrativa. O layout utiliza HTML/CSS e ícones SVG funcionais; imagens de referência geradas não são capturas de navegador. Busca, filtros, navegação e pedido foram verificados por testes de comportamento. Conferir visualmente no celular após publicação.
+`banco-jf.sql` é um registro do schema instalado; não deve ser reaplicado.
+O bucket jf-media é público para exibir fotos e vídeos no site.
+Mídias de rascunhos também têm URL pública se conhecida; use apenas material destinado à divulgação.
+O painel apaga mídias removidas após salvar o produto e tenta limpar uploads se o salvamento falhar.
+Fotos e vídeos são transmitidos ao armazenamento online; não ficam apenas no navegador.
+O catálogo consulta o banco ao abrir a página; quem já estiver com a página aberta precisa recarregar.
+
+## Arquivos
+
+- `dados.js`: cliente de dados e armazenamento.
+- `admin.html`, `admin.js`, `admin.css`: painel.
+- `app.js`: vitrine, galerias e pedidos.
+- `produtos.js`: catálogo legado vazio, usado só se o banco não estiver configurado.
+- `assets/vendor/supabase-2.117.2.js`: SDK fixado, servido localmente.
+
+O layout e a imagem de capa da versão aprovada foram preservados.

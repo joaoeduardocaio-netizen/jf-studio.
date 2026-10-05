@@ -1,1 +1,28 @@
-Extraia o ZIP. Envie index.html, catalogo.html, style.css, app.js, config.js e produtos.js na raiz do repositório substituindo os anteriores. Envie assets inteira, mantendo assets/fonts e assets/produtos. Imagens novas: hero-groot.webp e jf-logo-preto-cobre.png. Confirme o commit e aguarde a publicação do GitHub Pages. O catálogo continua vazio.
+JF STUDIO — PAINEL ADMINISTRATIVO
+
+1. Extraia este ZIP pelo aplicativo Arquivos, como na atualização que funcionou antes.
+2. Envie os arquivos da raiz e a pasta assets para a raiz do repositório da JF.
+   Substitua os arquivos existentes. Não crie uma pasta nova ao redor do site.
+3. Aguarde o GitHub Pages atualizar. Recarregue o site.
+4. Entre em SEU-ENDERECO/admin.html ou clique em Área administrativa no rodapé.
+5. Preencha seu e-mail e uma senha de pelo menos 8 caracteres.
+   Clique em Criar minha conta e confirme o cadastro pelo e-mail.
+6. Seu e-mail precisa ser liberado como administrador no banco da JF.
+   Criar uma conta não concede acesso administrativo automaticamente.
+   Informe ao responsável seu e-mail de cadastro; nunca envie sua senha.
+7. Depois da liberação, entre no painel e clique em Novo produto.
+   Cadastre nome, categoria, descrição, preço opcional, fotos e vídeos.
+   O primeiro arquivo é a capa; use Usar como capa para trocar.
+8. Marque Destacar na página inicial e/ou Publicar no catálogo.
+   Um produto oculto fica salvo no painel e não aparece para visitantes.
+9. Em Categorias você cria novas categorias. Antes de excluir uma categoria,
+   mova seus produtos para outra categoria.
+
+O banco da JF já foi criado e está separado do projeto FS Studio Maker.
+Não existem produtos de exemplo cadastrados.
+O painel usa login real e salvamento online: alterações aparecem em outros aparelhos.
+A liberação da conta e a atualização no seu GitHub ainda precisam ser concluídas.
+Vídeos devem ser MP4 ou WebM. Fotos JPG, PNG ou WebP.
+Máximo de 12 mídias por produto; cada arquivo até 50 MB.
+
+banco-jf.sql documenta a instalação já aplicada. Não execute novamente.
