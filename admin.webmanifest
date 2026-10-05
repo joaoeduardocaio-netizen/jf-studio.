@@ -1,0 +1,27 @@
+{
+  "id": "./admin.html",
+  "name": "JF Studio — Administração",
+  "short_name": "JF Admin",
+  "description": "Painel administrativo da JF Studio. Produtos, fotos, vídeos e categorias.",
+  "lang": "pt-BR",
+  "start_url": "./admin.html?app=1",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f5f2",
+  "theme_color": "#1b1e21",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "jf-admin-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "jf-admin-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
