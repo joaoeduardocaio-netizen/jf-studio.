@@ -1,0 +1,38 @@
+JF STUDIO — ATELIÊ COM ROBÔ
+
+PUBLICAR NO REPOSITÓRIO ATUAL
+1. Extraia o ZIP.
+2. Envie index.html, style.css, app.js, config.js e produtos.js para a raiz do repositório jf-studio.
+3. Envie também a pasta assets, preservando suas subpastas e os nomes dos arquivos.
+4. Substitua os arquivos de mesmo nome. Não envie somente o ZIP.
+5. Aguarde a publicação do GitHub Pages e recarregue o site.
+
+A nova página substitui o topo do dragão animado pela logo 3D em cobre e grafite.
+O robô é uma imagem ilustrativa na apresentação. Não é um produto cadastrado.
+Os três blocos de categorias também usam imagens ilustrativas.
+O catálogo começa vazio, sem os produtos fictícios das versões anteriores.
+WhatsApp configurado: +55 48 99694-2186.
+
+CADASTRAR PRODUTOS REAIS DEPOIS
+Abra produtos.js e adicione os seus produtos ao array JF_PRODUCTS.
+Modelo de cadastro (não está ativo no site):
+{
+  id: "minha-peca",
+  name: "Nome da peça",
+  category: "Articulados",
+  description: "Descrição da peça",
+  image: "assets/produtos/minha-foto.jpg"
+}
+Categorias disponíveis: Articulados, Decoração, Personalizados.
+Separe os cadastros por vírgulas e envie as fotos para assets/produtos/.
+O filtro e a busca aparecerão automaticamente quando existirem produtos.
+Este pacote não inclui painel administrativo; o cadastro é feito em produtos.js.
+
+O formulário personalizado reúne a ideia no pedido e permite enviá-la pelo WhatsApp.
+Nenhuma mensagem é enviada automaticamente: o visitante confirma o envio no WhatsApp.
+Não há pagamento online ou banco de dados neste pacote.
+
+VALIDAÇÃO
+Conferidos os arquivos locais, a sintaxe JavaScript, o catálogo vazio, o menu,
+as categorias, a personalização, o pedido e o link do WhatsApp.
+A conferência visual final no navegador ainda precisa ser feita após publicação.
