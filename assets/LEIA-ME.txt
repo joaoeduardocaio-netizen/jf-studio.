@@ -1,0 +1,1 @@
+Adicione aqui as fotos dos seus produtos reais e indique seus caminhos em produtos.js.
