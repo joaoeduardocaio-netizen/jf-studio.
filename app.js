@@ -1,18 +1,24 @@
 'use strict';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const products=Array.isArray(window.JF_PRODUCTS)?window.JF_PRODUCTS.filter(p=>p&&p.id&&p.name&&p.category):[];
+let products=Array.isArray(window.JF_PRODUCTS)?window.JF_PRODUCTS.filter(p=>p&&p.id&&p.name&&p.category):[];
 const whatsapp=String(window.JF_CONFIG?.whatsapp||'').replace(/\D/g,'');
-const categories=[...new Set(['Todos',...(window.JF_CATEGORIES||['Articulados','Decoração','Personalizados']),...products.map(p=>p.category)])];
+let categories=[...new Set(['Todos',...(window.JF_CATEGORIES||['Articulados','Decoração','Personalizados']),...products.map(p=>p.category)])];
 let filter=new URLSearchParams(location.search).get('categoria')||'Todos',cart=[];
 if(!categories.includes(filter))filter='Todos';
 try{const saved=JSON.parse(localStorage.getItem('jf-atelie-order')||'[]');if(Array.isArray(saved))cart=saved.filter(x=>x&&typeof x.id==='string'&&typeof x.name==='string'&&Number.isInteger(x.qty)&&x.qty>0&&x.qty<=999)}catch{}
 const arrow='<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>';
+function priceText(p){return p.price==null?'Sob consulta':new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(p.price))}
+function productCard(p){const first=p.media?.[0];const url=window.JF_DATA?.safeURL(first?.url||p.image);return `<article class="product-card">${url?(first?.type==='video'?`<video src="${esc(url)}" controls playsinline preload="metadata" aria-label="${esc(p.name)}"></video>`:`<img src="${esc(url)}" alt="${esc(p.name)}" loading="lazy">`):''}<div class="product-info">${p.featured?'<span class="product-badge">Destaque</span>':''}<h3>${esc(p.name)}</h3><p class="price">${esc(priceText(p))}</p><button data-detail="${esc(p.id)}">Ver detalhes ${arrow}</button><button data-add="${esc(p.id)}">Adicionar ao pedido</button></div></article>`}
+let detailId;
+function showDetails(id){const p=products.find(x=>String(x.id)===id);if(!p)return;detailId=id;$('#detailTitle').textContent=p.name;$('#detailDescription').textContent=p.description||'';$('#detailPrice').textContent=priceText(p);const media=p.media?.length?p.media:p.image?[{type:'image',url:p.image}]:[];$('#detailGallery').innerHTML=media.map(m=>{const u=window.JF_DATA?.safeURL(m.url);return !u?'':m.type==='video'?`<video src="${esc(u)}" controls playsinline preload="metadata"></video>`:`<img src="${esc(u)}" alt="${esc(p.name)}" loading="lazy">`}).join('');$('#productDialog').showModal()}
+function productClick(e){const detail=e.target.closest('button[data-detail]');if(detail){showDetails(detail.dataset.detail);return}const b=e.target.closest('button[data-add]');const p=products.find(x=>String(x.id)===b?.dataset.add);if(p)add(p.id,p.name)}
 function render(){
  if(!$('#products'))return;
  const q=($('#search')?.value||$('#headerQuery')?.value||'').trim().toLocaleLowerCase('pt-BR');
  const list=products.filter(p=>(filter==='Todos'||p.category===filter)&&(p.name+' '+(p.description||'')).toLocaleLowerCase('pt-BR').includes(q));
- $('#products').innerHTML=list.map(p=>`<article class="product-card">${p.image?`<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy">`:''}<div class="product-info"><h3>${esc(p.name)}</h3>${p.description?`<p>${esc(p.description)}</p>`:''}<button data-add="${esc(p.id)}">Adicionar ao pedido ${arrow}</button></div></article>`).join('');
+ $('#products').innerHTML=list.map(productCard).join('');
+ const featured=products.filter(p=>p.featured);if($('#featuredSection')){$('#featuredSection').hidden=!featured.length;$('#featuredProducts').innerHTML=featured.map(productCard).join('')}
  $('#emptyCatalog').hidden=!!list.length;
  $('#emptyCatalog h2').textContent=products.length?'Nenhuma criação encontrada.':'Novas criações em breve';
  $('#emptyMessage').textContent=products.length?'Experimente outra busca ou categoria.':'Estamos preparando nosso catálogo.';
@@ -39,7 +45,8 @@ const initialSearch=new URLSearchParams(location.search).get('busca')||'';
 if($('#search'))$('#search').value=initialSearch;
 if($('#headerQuery'))$('#headerQuery').value=initialSearch;
 $('#search')?.addEventListener('input',render);
-$('#products')?.addEventListener('click',e=>{const b=e.target.closest('button[data-add]');const p=products.find(x=>String(x.id)===b?.dataset.add);if(p)add(p.id,p.name)});
+$('#products')?.addEventListener('click',productClick);$('#featuredProducts')?.addEventListener('click',productClick);
+$('#detailClose')?.addEventListener('click',()=>$('#productDialog').close());$('#productDialog')?.addEventListener('close',()=>{$('#detailGallery').querySelectorAll('video').forEach(v=>v.pause())});$('#detailAdd')?.addEventListener('click',()=>{const p=products.find(x=>String(x.id)===detailId);if(p)add(p.id,p.name)});
 $('#cartOpen').addEventListener('click',()=>{$('#orderStatus').textContent='';$('#cartDialog').showModal()});$('#cartClose').addEventListener('click',()=>$('#cartDialog').close());
 $('#cartItems').addEventListener('click',e=>{const d=e.target.closest('button')?.dataset;if(!d)return;const key=['plus','minus','remove'].find(k=>d[k]!==undefined);if(!key)return;const i=Number(d[key]);if(!Number.isInteger(i)||!cart[i])return;if(key==='plus')cart[i].qty=Math.min(999,cart[i].qty+1);else if(key==='minus'&&cart[i].qty>1)cart[i].qty--;else cart.splice(i,1);save()});
 document.querySelectorAll('.hero-actions .outline,[data-custom]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();$('#customStatus').textContent='';$('#ideaDialog').showModal()}));$('#ideaClose').addEventListener('click',()=>$('#ideaDialog').close());
@@ -49,3 +56,6 @@ $('#sendOrder').addEventListener('click',()=>{if(cart.length)openWhatsApp(order(
 $('#copyOrder').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(order());$('#orderStatus').textContent='Pedido copiado.'}catch{$('#orderStatus').textContent='Use “Baixar pedido” ou envie pelo WhatsApp.'}});
 $('#downloadOrder').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([order()],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='pedido-jf-studio.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
 $('#year').textContent=new Date().getFullYear();render();save();
+
+async function loadCatalog(){if(!window.JF_DATA?.configured)return;$('#emptyCatalog h2').textContent='Carregando catálogo…';$('#emptyMessage').textContent='';try{const data=await window.JF_DATA.list();products=data.products;categories=['Todos',...data.categories];const requested=new URLSearchParams(location.search).get('categoria')||'Todos';filter=categories.includes(requested)?requested:'Todos';render()}catch(error){$('#emptyCatalog').hidden=false;$('#emptyCatalog h2').textContent='Não foi possível carregar o catálogo.';$('#emptyMessage').textContent='Tente novamente em instantes.';console.error('Catálogo JF:',error.message)}}
+loadCatalog();
