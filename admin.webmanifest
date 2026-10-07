@@ -1,14 +1,14 @@
 {
   "id": "./admin.html",
-  "name": "JF Studio — Administração",
-  "short_name": "JF Admin",
-  "description": "Painel administrativo da JF Studio. Produtos, fotos, vídeos e categorias.",
+  "name": "Ternurê — Administração",
+  "short_name": "Ternurê Admin",
+  "description": "Painel administrativo da Ternurê. Produtos, fotos, vídeos e categorias.",
   "lang": "pt-BR",
   "start_url": "./admin.html?app=1",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f7f5f2",
-  "theme_color": "#1b1e21",
+  "theme_color": "#751324",
   "prefer_related_applications": false,
   "icons": [
     {

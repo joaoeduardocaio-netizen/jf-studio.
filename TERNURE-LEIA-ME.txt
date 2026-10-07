@@ -1,0 +1,7 @@
+TERNURÊ — atualização do site JF
+
+Design baseado na referência aprovada. As imagens iniciais são ilustrativas; não representam estoque confirmado. Os produtos reais publicados nas categorias Flores, Velas e Cestas de presentes substituem os exemplos. Cadastre seus produtos pelo admin.html com o login atual. A conexão e os arquivos do painel foram preservados. Produtos antigos de impressão 3D não são excluídos e não aparecem na vitrine.
+
+WhatsApp mantido do site atual: 48 99694-2186. Confirme antes de publicar. O domínio ternure.com.br não foi registrado nem conectado.
+
+Para instalar, envie o conteúdo desta pasta para a raiz do repositório atual, substituindo os arquivos. Não envie a pasta inteira dentro de outra pasta.
